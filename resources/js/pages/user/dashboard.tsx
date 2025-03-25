@@ -104,7 +104,7 @@ export default function UserDashboard({ recentReports, reportsCount }: Dashboard
                             <CardDescription>Create a new complaint with details and supporting evidence</CardDescription>
                         </CardHeader>
                         <CardFooter>
-                            <Link href={route('reports.create')}>
+                            <Link href={route('user.report.create')}>
                                 <Button>Create Report</Button>
                             </Link>
                         </CardFooter>
@@ -119,7 +119,7 @@ export default function UserDashboard({ recentReports, reportsCount }: Dashboard
                             <CardDescription>View and track the status of all your submitted reports</CardDescription>
                         </CardHeader>
                         <CardFooter>
-                            <Link href={route('reports.index')}>
+                            <Link href={route('user.report.index')}>
                                 <Button variant="outline">View Reports</Button>
                             </Link>
                         </CardFooter>
@@ -142,7 +142,7 @@ export default function UserDashboard({ recentReports, reportsCount }: Dashboard
                                         <div key={report.report_id} className="border-border flex items-start space-y-1 border-b pb-4 last:border-0">
                                             <div className="w-full">
                                                 <div className="mb-1 flex items-center justify-between">
-                                                    <Link href={route('reports.show', report.report_id)} className="font-medium hover:underline">
+                                                    <Link href={route('user.report.show', report.report_id)} className="font-medium hover:underline">
                                                         {report.title}
                                                     </Link>
                                                     {getStatusBadge(report.status)}
@@ -164,7 +164,7 @@ export default function UserDashboard({ recentReports, reportsCount }: Dashboard
                                     ))}
 
                                     <div className="pt-2 text-center">
-                                        <Link href={route('reports.index')}>
+                                        <Link href={route('user.report.index')}>
                                             <Button variant="link" size="sm">
                                                 View All Reports
                                             </Button>

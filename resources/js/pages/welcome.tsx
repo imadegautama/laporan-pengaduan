@@ -24,7 +24,7 @@ export default function Welcome() {
                             <nav className="flex items-center space-x-4">
                                 {auth.user ? (
                                     <Link
-                                        href={route('dashboard')}
+                                        href={auth.user.role === 'ADMIN' ? route('dashboard') : route('user.report.index')}
                                         className="rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
                                     >
                                         Dashboard
@@ -63,9 +63,6 @@ export default function Welcome() {
                                     <Link href={route('register')}>
                                         <Button size="lg">Submit Report</Button>
                                     </Link>
-                                    <Button variant="outline" size="lg">
-                                        Learn More
-                                    </Button>
                                 </div>
                             </div>
                             <div className="order-1 flex justify-center lg:order-2">
@@ -120,9 +117,7 @@ export default function Welcome() {
                                     <CardTitle>Privacy Guaranteed</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <CardDescription>
-                                        Reporter identity is protected, and you can choose to submit complaints anonymously.
-                                    </CardDescription>
+                                    <CardDescription>Reporter identity is protected.</CardDescription>
                                 </CardContent>
                             </Card>
                         </div>

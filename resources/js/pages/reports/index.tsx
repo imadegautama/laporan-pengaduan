@@ -52,7 +52,7 @@ export default function ReportsIndex({ reports }: ReportsIndexProps) {
                         <p className="text-muted-foreground mt-1 text-sm">View and manage your submitted reports</p>
                     </div>
                     <div className="mt-4 sm:mt-0">
-                        <Link href={route('reports.create')}>
+                        <Link href={route('user.report.create')}>
                             <Button>
                                 <FilePlus className="mr-2 h-4 w-4" />
                                 New Report
@@ -71,7 +71,7 @@ export default function ReportsIndex({ reports }: ReportsIndexProps) {
                             <p className="text-muted-foreground mt-2 max-w-md text-center">
                                 You haven't submitted any reports yet. Create a new report to get started.
                             </p>
-                            <Link href={route('reports.create')} className="mt-6">
+                            <Link href={route('user.report.create')} className="mt-6">
                                 <Button>Create Your First Report</Button>
                             </Link>
                         </CardContent>
@@ -100,7 +100,7 @@ export default function ReportsIndex({ reports }: ReportsIndexProps) {
                                     <p className="text-muted-foreground line-clamp-3 text-sm">{report.description}</p>
                                 </CardContent>
                                 <CardFooter>
-                                    <Link href={route('reports.show', report.report_id)}>
+                                    <Link href={route('user.report.show', report.report_id)}>
                                         <Button variant="secondary" className="w-full">
                                             <Eye className="mr-2 h-4 w-4" />
                                             View Details

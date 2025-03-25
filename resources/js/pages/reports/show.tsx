@@ -1,12 +1,29 @@
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MessageCircle } from 'lucide-react';
 
 interface Category {
     category_id: number;
     category_name: string;
+}
+
+interface User {
+    user_id: number;
+    name: string;
+    role: string;
+}
+
+interface Response {
+    response_id: number;
+    report_id: number;
+    user_id: number;
+    content: string;
+    created_at: string;
+    updated_at: string;
+    user: User;
 }
 
 interface Report {
@@ -18,6 +35,7 @@ interface Report {
     status: 'PENDING' | 'IN_PROCESS' | 'RESOLVED' | 'REJECTED';
     created_at: string;
     updated_at: string;
+    responses: Response[];
 }
 
 interface ReportShowProps {
@@ -51,12 +69,25 @@ export default function ReportShow({ report }: ReportShowProps) {
         });
     };
 
+    // Get user initials for avatar
+    const getInitials = (name: string) => {
+        return name
+            .split(' ')
+            .map((word) => word[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2);
+    };
+
     return (
         <AppLayout>
             <Head title={`Report: ${report.title}`} />
 
             <div className="container mx-auto px-4 py-6">
-                <Link href={route('reports.index')} className="text-muted-foreground hover:text-foreground mb-6 flex items-center transition-colors">
+                <Link
+                    href={route('user.report.index')}
+                    className="text-muted-foreground hover:text-foreground mb-6 flex items-center transition-colors"
+                >
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Back to Reports
                 </Link>
@@ -64,7 +95,7 @@ export default function ReportShow({ report }: ReportShowProps) {
                 <div className="grid gap-6 md:grid-cols-3">
                     {/* Main Content */}
                     <div className="md:col-span-2">
-                        <Card>
+                        <Card className="mb-6">
                             <CardHeader className="relative">
                                 <div className="absolute top-6 right-6">
                                     <Badge className={getStatusColor(report.status)}>{report.status.replace('_', ' ')}</Badge>
@@ -86,6 +117,61 @@ export default function ReportShow({ report }: ReportShowProps) {
                                         <img src={`/storage/${report.image}`} alt="Report Evidence" className="w-full object-cover" />
                                     </div>
                                 </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Admin Responses */}
+                        <Card>
+                            <CardHeader className="flex flex-row items-center">
+                                <CardTitle className="flex items-center gap-2">
+                                    <MessageCircle className="h-5 w-5" />
+                                    Responses
+                                </CardTitle>
+                                <Badge variant="outline" className="ml-2">
+                                    {report.responses?.length || 0}
+                                </Badge>
+                            </CardHeader>
+                            <CardContent>
+                                {!report.responses || report.responses.length === 0 ? (
+                                    <div className="bg-muted/50 flex items-center justify-center rounded-md p-8 text-center">
+                                        <div className="text-muted-foreground">
+                                            <p>No responses yet.</p>
+                                            <p className="text-sm">Admin responses will appear here once they respond to your report.</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-6">
+                                        {report.responses.map((response) => (
+                                            <div key={response.response_id} className="space-y-2">
+                                                <div className="flex items-start gap-3">
+                                                    <Avatar>
+                                                        <AvatarFallback
+                                                            className={response.user.role === 'ADMIN' ? 'bg-blue-100 text-blue-800' : 'bg-slate-100'}
+                                                        >
+                                                            {getInitials(response.user.name)}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <div className="space-y-1">
+                                                        <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
+                                                            <div className="font-medium">
+                                                                {response.user.name}
+                                                                {response.user.role === 'ADMIN' && (
+                                                                    <Badge className="ml-2 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                                                                        Admin
+                                                                    </Badge>
+                                                                )}
+                                                            </div>
+                                                            <span className="text-muted-foreground text-xs sm:ml-2">
+                                                                {formatDate(response.created_at)}
+                                                            </span>
+                                                        </div>
+                                                        <div className="bg-muted rounded-md p-3 whitespace-pre-wrap">{response.content}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </CardContent>
                         </Card>
                     </div>
@@ -123,6 +209,14 @@ export default function ReportShow({ report }: ReportShowProps) {
                                         Last Updated
                                     </div>
                                     <div className="mt-1">{formatDate(report.updated_at)}</div>
+                                </div>
+
+                                <div>
+                                    <div className="text-muted-foreground flex items-center text-sm font-medium">
+                                        <MessageCircle className="mr-1 h-4 w-4" />
+                                        Responses
+                                    </div>
+                                    <div className="mt-1">{report.responses?.length || 0}</div>
                                 </div>
                             </CardContent>
                         </Card>

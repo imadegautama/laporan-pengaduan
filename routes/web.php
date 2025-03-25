@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminReportsController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +16,11 @@ Route::get('/', function () {
 // User routes
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/user/report/create', [ReportsController::class, 'create'])->name('user.report.create');
+    Route::post('/user/report', [ReportsController::class, 'store'])->name('user.report.store');
+    Route::get('/user/report/{id}', [ReportsController::class, 'show'])->name('user.report.show');
+    Route::get('/user/report', [ReportsController::class, 'index'])->name('user.report.index');
+    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
 });
 
 // Admin routes
@@ -27,6 +33,12 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
         Route::get('/reports/{id}', [AdminReportsController::class, 'show'])->name('admin.reports.show');
         Route::patch('/reports/{id}/status', [AdminReportsController::class, 'updateStatus'])->name('admin.reports.status');
         Route::post('/reports/{id}/responses', [AdminReportsController::class, 'storeResponse'])->name('admin.reports.responses.store');
+        Route::get('/users', [AdminUsersController::class, 'index'])->name('admin.users.index');
+        Route::get('/users/create', [AdminUsersController::class, 'create'])->name('admin.users.create');
+        Route::post('/users', [AdminUsersController::class, 'store'])->name('admin.users.store');
+        Route::get('/users/{id}/edit', [AdminUsersController::class, 'edit'])->name('admin.users.edit');
+        Route::put('/users/{id}', [AdminUsersController::class, 'update'])->name('admin.users.update');
+        Route::delete('/users/{id}', [AdminUsersController::class, 'destroy'])->name('admin.users.destroy');
     });
 });
 

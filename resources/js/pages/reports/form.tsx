@@ -45,7 +45,8 @@ export default function ReportForm({ categories }: ReportFormProps) {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        post(route('reports.store'), {
+        console.log(route('user.report.store'));
+        post(route('user.report.store'), {
             forceFormData: true,
             onSuccess: () => {
                 reset();

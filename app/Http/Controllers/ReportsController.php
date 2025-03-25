@@ -62,7 +62,7 @@ class ReportsController extends Controller
             'status' => 'PENDING'
         ]);
 
-        return redirect()->route('reports.index')
+        return redirect()->route('user.report.index')
             ->with('success', 'Report submitted successfully. Your report is pending review.');
     }
 
@@ -71,10 +71,10 @@ class ReportsController extends Controller
      */
     public function show(string $id)
     {
-        $report = Report::with('category')->findOrFail($id);
+        $report = Report::with(['category', 'responses.user'])
+            ->findOrFail($id);
 
         // Check if the report belongs to the authenticated user
-
         if ($report->user_id !== Auth::id()) {
             abort(403);
         }

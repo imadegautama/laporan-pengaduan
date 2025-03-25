@@ -10,7 +10,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { ChartBarStacked, FilePlus, FileText, LayoutGrid, Menu, PieChart, Users } from 'lucide-react';
+import { ChartBarStacked, FilePlus, FileText, LayoutGrid, Menu, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
@@ -36,11 +36,6 @@ const adminNavItems: NavItem[] = [
         href: '/admin/users',
         icon: Users,
     },
-    {
-        title: 'Analytics',
-        href: '/admin/analytics',
-        icon: PieChart,
-    },
 ];
 
 // User navigation items
@@ -52,12 +47,12 @@ const userNavItems: NavItem[] = [
     },
     {
         title: 'My Reports',
-        href: '/reports',
+        href: '/user/report',
         icon: FileText,
     },
     {
         title: 'Submit Report',
-        href: '/reports/create',
+        href: '/user/report/create',
         icon: FilePlus,
     },
 ];
