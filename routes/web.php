@@ -13,14 +13,16 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
-// User routes
 
+// User routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/user/report/create', [ReportsController::class, 'create'])->name('user.report.create');
-    Route::post('/user/report', [ReportsController::class, 'store'])->name('user.report.store');
-    Route::get('/user/report/{id}', [ReportsController::class, 'show'])->name('user.report.show');
-    Route::get('/user/report', [ReportsController::class, 'index'])->name('user.report.index');
-    Route::get('/user/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::prefix('user')->group(function () {
+        Route::get('/report/create', [ReportsController::class, 'create'])->name('user.report.create');
+        Route::post('/report', [ReportsController::class, 'store'])->name('user.report.store');
+        Route::get('/report/{id}', [ReportsController::class, 'show'])->name('user.report.show');
+        Route::get('/report', [ReportsController::class, 'index'])->name('user.report.index');
+        Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    });
 });
 
 // Admin routes
@@ -31,6 +33,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
         Route::resource('categories', CategoriesController::class);
         Route::get('/reports', [AdminReportsController::class, 'index'])->name('admin.reports.index');
         Route::get('/reports/{id}', [AdminReportsController::class, 'show'])->name('admin.reports.show');
+        Route::delete('/reports/{id}', [AdminReportsController::class, 'destroy'])->name('admin.reports.destroy');
         Route::patch('/reports/{id}/status', [AdminReportsController::class, 'updateStatus'])->name('admin.reports.status');
         Route::post('/reports/{id}/responses', [AdminReportsController::class, 'storeResponse'])->name('admin.reports.responses.store');
         Route::get('/users', [AdminUsersController::class, 'index'])->name('admin.users.index');

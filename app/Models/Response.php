@@ -15,7 +15,7 @@ class Response extends Model
     protected $fillable = [
         'report_id',
         'user_id',
-        'content'
+        'message'
     ];
 
     public function report(): BelongsTo

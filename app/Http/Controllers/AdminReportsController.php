@@ -69,6 +69,7 @@ class AdminReportsController extends Controller
         $report->status = $request->status;
         $report->save();
 
+
         // Create automatic response to track status change
         if ($oldStatus !== $request->status) {
             Response::create([
@@ -92,6 +93,7 @@ class AdminReportsController extends Controller
 
         $report = Report::findOrFail($id);
 
+
         Response::create([
             'report_id' => $report->report_id,
             'user_id' => Auth::id(),
@@ -99,5 +101,29 @@ class AdminReportsController extends Controller
         ]);
 
         return back()->with('success', 'Response added successfully');
+    }
+
+    public function destroy(string $id)
+    {
+        $report = Report::findOrFail($id);
+
+        // Get report info for the success message
+        $reportTitle = $report->title;
+
+        try {
+            // Delete associated responses first (if not using cascading deletes)
+            // Uncomment this if you don't have cascading deletes set up in your migrations
+            // Response::where('report_id', $id)->delete();
+
+            // Delete the report
+            $report->delete();
+
+            return redirect()
+                ->route('admin.reports.index')
+                ->with('success', "Report \"$reportTitle\" has been successfully deleted");
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Failed to delete report. ' . $e->getMessage());
+        }
     }
 }

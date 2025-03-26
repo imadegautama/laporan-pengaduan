@@ -20,7 +20,7 @@ interface Response {
     response_id: number;
     report_id: number;
     user_id: number;
-    content: string;
+    message: string;
     created_at: string;
     updated_at: string;
     user: User;
@@ -165,7 +165,7 @@ export default function ReportShow({ report }: ReportShowProps) {
                                                                 {formatDate(response.created_at)}
                                                             </span>
                                                         </div>
-                                                        <div className="bg-muted rounded-md p-3 whitespace-pre-wrap">{response.content}</div>
+                                                        <div className="bg-muted rounded-md p-3 whitespace-pre-wrap">{response.message}</div>
                                                     </div>
                                                 </div>
                                             </div>

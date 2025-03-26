@@ -12,18 +12,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'I Made Gautama',
-            'email' => 'imadegautama@gmail.com',
-            'role' => 'ADMIN'
-        ]);
+        // User::factory()->create([
+        //     'name' => 'I Made Gautama',
+        //     'email' => 'imadegautama@gmail.com',
+        //     'role' => 'ADMIN'
+        // ]);
 
-        User::factory()->create([
-            'name' => 'User 1',
-            'email' => 'user@gmail.com',
-            'role' => 'USER'
+        // User::factory()->create([
+        //     'name' => 'User 1',
+        //     'email' => 'user@gmail.com',
+        //     'role' => 'USER'
+        // ]);
+
+        $this->call([
+            UserSeeder::class,
+            CategorySeeder::class,
+            ReportSeeder::class,
+            ResponseSeeder::class,
         ]);
     }
 }

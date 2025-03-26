@@ -3,10 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -18,36 +15,36 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'category_name' => 'Infrastructure',
-                'description' => 'Issues related to roads, bridges, and public facilities',
-                "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                'description' => 'Issues related to roads, buildings, bridges, etc.',
             ],
             [
                 'category_name' => 'Public Safety',
-                'description' => 'Reports about crimes, accidents, and public disturbances',
-                "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                'description' => 'Concerns about safety in public spaces or emergencies',
             ],
             [
-                'category_name' => 'Health',
-                'description' => 'Complaints about healthcare services and public health',
-                "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                'category_name' => 'Sanitation',
+                'description' => 'Problems with waste management, drainage, or cleanliness',
             ],
             [
-                'category_name' => 'Environment',
-                'description' => 'Environmental issues like pollution, waste management, and green spaces',
-                "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                'category_name' => 'Public Transportation',
+                'description' => 'Issues related to public transportation services',
             ],
             [
-                'category_name' => 'Administration',
-                'description' => 'Issues related to government services and bureaucracy',
-                "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                'category_name' => 'Public Utilities',
+                'description' => 'Problems with water, electricity, or other utilities',
+            ],
+            [
+                'category_name' => 'Environmental',
+                'description' => 'Concerns about pollution, green spaces, or environmental damage',
+            ],
+            [
+                'category_name' => 'Administrative',
+                'description' => 'Issues with government services or administration',
             ],
         ];
 
-        DB::table('categories')->insert($categories);
+        foreach ($categories as $category) {
+            Category::create($category);
+        }
     }
 }
